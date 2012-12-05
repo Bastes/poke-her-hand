@@ -24,4 +24,23 @@ describe Poker::Hand do
       its(:to_s) { should == expected }
     end
   end
+
+  describe '<=>' do
+    context "spare VS spare" do
+      {
+        ['8C 2H 7D 10D 9C', '7H QS 8D 2S 9D']  => -1,
+        ['8C 2H 7D 3D 9C',  '4H 7S 2D 3S 5D']  => 1,
+        ['3D 4S 2S JS KH',  '3H 2H 5D KD JH']  => -1,
+        ['JH AD KS QH 2D',  '2H AS QD KC JS']  => 0,
+        ['10H AD KD 9C 7D', '10C 7C 9H KC AC'] => 0,
+        ['7S 8S 9S 10S 5D', '8D 9D 10D 5H 2D'] => 1
+      }.each do |(hand, challenger), expected_result|
+        context "#{hand} VS #{challenger}" do
+          subject { Poker::Hand.new(hand) <=> Poker::Hand.new(challenger) }
+
+          it { should == expected_result }
+        end
+      end
+    end
+  end
 end

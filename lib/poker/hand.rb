@@ -15,7 +15,15 @@ module Poker
       @cards.join ' '
     end
 
+    def <=> challenger
+      -challenger.challenge(@cards)
+    end
+
     protected
+
+    def challenge cards
+      @cards.zip(cards).inject(0) { |r, (a, b)| (value(a) <=> value(b)).tap { |r| return r unless r== 0 } }
+    end
 
     def acceptable! cards
       return true if cards =~ ACCEPTABLE
