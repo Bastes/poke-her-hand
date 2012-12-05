@@ -14,9 +14,9 @@ describe Poker::Hand do
   end
 
   {
-    '10D 2S 2C KH QD' => '2C 2S 10D QD KH',
+    '10D 2S 2C KH QD'    => '2C 2S 10D QD KH',
     '10D 10C 10S 10H 2S' => '2S 10C 10D 10H 10S',
-    'AD QD AC QC JH' => 'JH QC QD AC AD'
+    'AD QD AC QC JH'     => 'JH QC QD AC AD'
   }.each do |given, expected|
     context "given these cards: #{given}" do
       subject { Poker::Hand.new(given) }
@@ -29,13 +29,40 @@ describe Poker::Hand do
     context "spare VS spare" do
       {
         ['8C 2H 7D 10D 9C', '7H QS 8D 2S 9D']  => -1,
-        ['8C 2H 7D 3D 9C',  '4H 7S 2D 3S 5D']  => 1,
+        ['8C 2H 7D 3D 9C',  '4H 7S 2D 3S 5D']  =>  1,
         ['3D 4S 2S JS KH',  '3H 2H 5D KD JH']  => -1,
-        ['JH AD KS QH 2D',  '2H AS QD KC JS']  => 0,
-        ['10H AD KD 9C 7D', '10C 7C 9H KC AC'] => 0,
-        ['7S 8S 9S 10S 5D', '8D 9D 10D 5H 2D'] => 1
+        ['JH AD KS QH 2D',  '2H AS QD KC JS']  =>  0,
+        ['10H AD KD 9C 7D', '10C 7C 9H KC AC'] =>  0,
+        ['7S 8S 9S 10S 5D', '8D 9D 10D 5H 2D'] =>  1
       }.each do |(hand, challenger), expected_result|
-        context "#{hand} VS #{challenger}" do
+        context "[#{hand}] VS [#{challenger}]" do
+          subject { Poker::Hand.new(hand) <=> Poker::Hand.new(challenger) }
+
+          it { should == expected_result }
+        end
+      end
+    end
+
+    context "pair VS spare" do
+      {
+        ['2C 2S 3C 4C 5C',  '10C JC KC QC 5S'] =>  1,
+        ['8C 7H 10C 9C 5D', '4D 5H 5C 6H 7S']  => -1
+      }.each do |(hand, challenger), expected_result|
+        context "[#{hand}] VS [#{challenger}]" do
+          subject { Poker::Hand.new(hand) <=> Poker::Hand.new(challenger) }
+
+          it { should == expected_result }
+        end
+      end
+    end
+
+    context "pair VS pair" do
+      {
+        ['2C 8H 4D 7H 8S',  'KS QS 7D 7C JS'] =>  1,
+        ['4S 4C KS 8H JC',  'JH KC 4H 8C 4D'] =>  0,
+        ['KH 9S QD 9H 10S', 'KC QC 9C JC 9D'] => -1
+      }.each do |(hand, challenger), expected_result|
+        context "[#{hand}] VS [#{challenger}]" do
           subject { Poker::Hand.new(hand) <=> Poker::Hand.new(challenger) }
 
           it { should == expected_result }
