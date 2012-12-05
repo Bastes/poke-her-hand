@@ -7,14 +7,23 @@ module Poker
     VALUE = /\A([2-9JQKA]|10)/
 
     def initialize(cards)
-      raise ArgumentError.new("#{cards} is not a poker hand") unless cards =~ ACCEPTABLE
-      @cards = cards.split(/ /).
-        sort { |a, b| [VALUES[a[VALUE]], a] <=> [VALUES[b[VALUE]], b] }.
-        join ' '
+      acceptable! cards
+      @cards = cards.split(/ /).sort { |a, b| [value(a), a] <=> [value(b), b] }
     end
 
     def to_s
-      @cards
+      @cards.join ' '
+    end
+
+    protected
+
+    def acceptable! cards
+      return true if cards =~ ACCEPTABLE
+      raise ArgumentError.new("#{cards} is not a poker hand")
+    end
+
+    def value card
+      VALUES[card[VALUE]]
     end
   end
 end
