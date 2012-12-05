@@ -1,5 +1,17 @@
 require 'spec_helper'
 
+RSpec::Matchers.define :win_against do |challenger|
+  match { |hand| (hand <=> challenger) == 1 }
+end
+
+RSpec::Matchers.define :tie_against do |challenger|
+  match { |hand| (hand <=> challenger) == 0 }
+end
+
+RSpec::Matchers.define :lose_against do |challenger|
+  match { |hand| (hand <=> challenger) == -1 }
+end
+
 describe Poker::Hand do
   [
     'garbage',
@@ -26,48 +38,35 @@ describe Poker::Hand do
   end
 
   describe '<=>' do
-    context "spare VS spare" do
-      {
-        ['8C 2H 7D 10D 9C', '7H QS 8D 2S 9D']  => -1,
-        ['8C 2H 7D 3D 9C',  '4H 7S 2D 3S 5D']  =>  1,
-        ['3D 4S 2S JS KH',  '3H 2H 5D KD JH']  => -1,
-        ['JH AD KS QH 2D',  '2H AS QD KC JS']  =>  0,
-        ['10H AD KD 9C 7D', '10C 7C 9H KC AC'] =>  0,
-        ['7S 8S 9S 10S 5D', '8D 9D 10D 5H 2D'] =>  1
-      }.each do |(hand, challenger), expected_result|
-        context "[#{hand}] VS [#{challenger}]" do
-          subject { Poker::Hand.new(hand) <=> Poker::Hand.new(challenger) }
+    def self.pit hand, options = {}
+      challenger_hand = options[:against]
+      expected = :"#{options[:to]}_against"
+      context "#{hand}" do
+        let(:challenger) { Poker::Hand.new(challenger_hand) }
+        subject { Poker::Hand.new(hand) }
 
-          it { should == expected_result }
-        end
+        it { should send(expected, challenger) }
       end
+    end
+
+    context "spare VS spare" do
+      pit '8C 2H 7D 3D 9C',  against: '4H 7S 2D 3S 5D',  to: :win
+      pit '7S 8S 9S 10S 5D', against: '8D 9D 10D 5H 2D', to: :win
+      pit '8C 2H 7D 10D 9C', against: '7H QS 8D 2S 9D',  to: :lose
+      pit '3D 4S 2S JS KH',  against: '3H 2H 5D KD JH',  to: :lose
+      pit 'JH AD KS QH 2D',  against: '2H AS QD KC JS',  to: :tie
+      pit '10H AD KD 9C 7D', against: '10C 7C 9H KC AC', to: :tie
     end
 
     context "pair VS spare" do
-      {
-        ['2C 2S 3C 4C 5C',  '10C JC KC QC 5S'] =>  1,
-        ['8C 7H 10C 9C 5D', '4D 5H 5C 6H 7S']  => -1
-      }.each do |(hand, challenger), expected_result|
-        context "[#{hand}] VS [#{challenger}]" do
-          subject { Poker::Hand.new(hand) <=> Poker::Hand.new(challenger) }
-
-          it { should == expected_result }
-        end
-      end
+      pit '2C 2S 3C 4C 5C',  against: '10C JC KC QC 5S', to: :win
+      pit '8C 7H 10C 9C 5D', against: '4D 5H 5C 6H 7S',  to: :lose
     end
 
     context "pair VS pair" do
-      {
-        ['2C 8H 4D 7H 8S',  'KS QS 7D 7C JS'] =>  1,
-        ['4S 4C KS 8H JC',  'JH KC 4H 8C 4D'] =>  0,
-        ['KH 9S QD 9H 10S', 'KC QC 9C JC 9D'] => -1
-      }.each do |(hand, challenger), expected_result|
-        context "[#{hand}] VS [#{challenger}]" do
-          subject { Poker::Hand.new(hand) <=> Poker::Hand.new(challenger) }
-
-          it { should == expected_result }
-        end
-      end
+      pit '2C 8H 4D 7H 8S',  against: 'KS QS 7D 7C JS', to: :win
+      pit '4S 4C KS 8H JC',  against: 'JH KC 4H 8C 4D', to: :tie
+      pit 'KH 9S QD 9H 10S', against: 'KC QC 9C JC 9D', to: :lose
     end
   end
 end
