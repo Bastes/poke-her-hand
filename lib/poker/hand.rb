@@ -8,9 +8,12 @@ module Poker
       acceptable! cards
       cards = cards.split(/ /).map { |c| Card.new c }.sort!
       @figures = []
-      Figure::Pair.match(cards) do |pair, rest|
-        @figures << pair if pair
-        @figures << Figure::Nothing.new(rest)
+      Figure::ThreeOfAKind.match(cards) do |three, rest|
+        @figures << three if three
+        Figure::Pair.match(rest) do |pair, rest|
+          @figures << pair if pair
+          @figures << Figure::Nothing.new(rest)
+        end
       end
     end
 

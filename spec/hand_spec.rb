@@ -92,6 +92,26 @@ describe Poker::Hand do
       end
     end
 
+    context "three-of-a-kind VS" do
+      context "nothing" do
+        pit '7D 3S 4C 7H 7C',  against: 'AS KS JS QS 8C', to: :win
+        pit '2D 3H 4C 5S 10H', against: 'JH JC JS 2S 3C', to: :lose
+      end
+
+      context "pair" do
+        pit '3C 8D 8C 8H 5S',   against: '5C JH JD 10S 9C', to: :win
+        pit '10S 9D 10H JC 7D', against: '4C 4D 9S 4S KS', to: :lose
+      end
+
+      context "two pair" do
+        pit 'JC JS JH 2S 5D', against: 'KS QD KC QH AS', to: :win
+        pit '8S 9S 8H 9C KH', against: '7S 5C 7H 5D 7C', to: :lose
+      end
+
+      context "three-of-a-kind" do
+        pit '5C 5D 5S 7H 8C', against: '4C 4D 4S 7D 8H',  to: :win
+        pit 'JC KH KC QS KD', against: '10C AS 8D AC AD', to: :lose
+      end
     end
   end
 end
