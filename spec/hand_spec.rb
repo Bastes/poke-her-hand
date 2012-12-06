@@ -49,7 +49,7 @@ describe Poker::Hand do
       end
     end
 
-    context "spare VS spare" do
+    context "nothing VS nothing" do
       pit '8C 2H 7D 3D 9C',  against: '4H 7S 2D 3S 5D',  to: :win
       pit '7S 8S 9S 10S 5D', against: '8D 9D 10D 5H 2D', to: :win
       pit '8C 2H 7D 10D 9C', against: '7H QS 8D 2S 9D',  to: :lose
@@ -58,7 +58,7 @@ describe Poker::Hand do
       pit '10H AD KD 9C 7D', against: '10C 7C 9H KC AC', to: :tie
     end
 
-    context "pair VS spare" do
+    context "pair VS nothing" do
       pit '2C 2S 3C 4C 5C',  against: '10C JC KC QC 5S', to: :win
       pit '8C 7H 10C 9C 5D', against: '4D 5H 5C 6H 7S',  to: :lose
     end
