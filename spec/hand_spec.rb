@@ -49,41 +49,49 @@ describe Poker::Hand do
       end
     end
 
-    context "nothing VS nothing" do
-      pit '8C 2H 7D 3D 9C',  against: '4H 7S 2D 3S 5D',  to: :win
-      pit '7S 8S 9S 10S 5D', against: '8D 9D 10D 5H 2D', to: :win
-      pit '8C 2H 7D 10D 9C', against: '7H QS 8D 2S 9D',  to: :lose
-      pit '3D 4S 2S JS KH',  against: '3H 2H 5D KD JH',  to: :lose
-      pit 'JH AD KS QH 2D',  against: '2H AS QD KC JS',  to: :tie
-      pit '10H AD KD 9C 7D', against: '10C 7C 9H KC AC', to: :tie
+    context "nothing VS" do
+      context "nothing" do
+        pit '8C 2H 7D 3D 9C',  against: '4H 7S 2D 3S 5D',  to: :win
+        pit '7S 8S 9S 10S 5D', against: '8D 9D 10D 5H 2D', to: :win
+        pit '8C 2H 7D 10D 9C', against: '7H QS 8D 2S 9D',  to: :lose
+        pit '3D 4S 2S JS KH',  against: '3H 2H 5D KD JH',  to: :lose
+        pit 'JH AD KS QH 2D',  against: '2H AS QD KC JS',  to: :tie
+        pit '10H AD KD 9C 7D', against: '10C 7C 9H KC AC', to: :tie
+      end
     end
 
-    context "pair VS nothing" do
-      pit '2C 2S 3C 4C 5C',  against: '10C JC KC QC 5S', to: :win
-      pit '8C 7H 10C 9C 5D', against: '4D 5H 5C 6H 7S',  to: :lose
+    context "pair VS" do
+      context "nothing" do
+        pit '2C 2S 3C 4C 5C',  against: '10C JC KC QC 5S', to: :win
+        pit '8C 7H 10C 9C 5D', against: '4D 5H 5C 6H 7S',  to: :lose
+      end
+
+      context "pair" do
+        pit '2C 8H 4D 7H 8S',  against: 'KS QS 7D 7C JS', to: :win
+        pit '4S 4C KS 8H JC',  against: 'JH KC 4H 8C 4D', to: :tie
+        pit 'KH 9S QD 9H 10S', against: 'KC QC 9C JC 9D', to: :lose
+      end
     end
 
-    context "pair VS pair" do
-      pit '2C 8H 4D 7H 8S',  against: 'KS QS 7D 7C JS', to: :win
-      pit '4S 4C KS 8H JC',  against: 'JH KC 4H 8C 4D', to: :tie
-      pit 'KH 9S QD 9H 10S', against: 'KC QC 9C JC 9D', to: :lose
+    context "two pairs VS" do
+      context "nothing" do
+        pit '2C 2H QD 3S 3H',  against: 'KD JD QH AD 7H', to: :win
+        pit 'KH 7C 8C 9C 10C', against: '4H 5C 5S 6C 6H', to: :lose
+      end
+
+      context "pair" do
+        pit 'QD 7D QH 8C 7H',   against: 'AD AH KD QC JS', to: :win
+        pit '7D 10D 10H 6S 5C', against: '3H 4H 5H 5S 4D', to: :lose
+      end
+
+      context "two pair" do
+        pit 'QD QS 7H 5S 7S',   against: '10S KC 10S 7C 7D', to: :win
+        pit 'JS 8C JC 8H 3C',   against: 'AD JH JD 7S 7D',   to: :win
+        pit '2S 3S 2C 3H 4D',   against: '3D 3C 4H 2D 2H',   to: :tie
+        pit '9H 9D 4S 10C 10D', against: '10S 10H 9C 9S 5C', to: :lose
+      end
     end
 
-    context "two pairs VS nothing" do
-      pit '2C 2H QD 3S 3H',  against: 'KD JD QH AD 7H', to: :win
-      pit 'KH 7C 8C 9C 10C', against: '4H 5C 5S 6C 6H', to: :lose
-    end
-
-    context "two pair VS pair" do
-      pit 'QD 7D QH 8C 7H',   against: 'AD AH KD QC JS', to: :win
-      pit '7D 10D 10H 6S 5C', against: '3H 4H 5H 5S 4D', to: :lose
-    end
-
-    context "two pair VS two pair" do
-      pit 'QD QS 7H 5S 7S',   against: '10S KC 10S 7C 7D', to: :win
-      pit 'JS 8C JC 8H 3C',   against: 'AD JH JD 7S 7D',   to: :win
-      pit '2S 3S 2C 3H 4D',   against: '3D 3C 4H 2D 2H',   to: :tie
-      pit '9H 9D 4S 10C 10D', against: '10S 10H 9C 9S 5C', to: :lose
     end
   end
 end
