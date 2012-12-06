@@ -68,5 +68,22 @@ describe Poker::Hand do
       pit '4S 4C KS 8H JC',  against: 'JH KC 4H 8C 4D', to: :tie
       pit 'KH 9S QD 9H 10S', against: 'KC QC 9C JC 9D', to: :lose
     end
+
+    context "two pairs VS nothing" do
+      pit '2C 2H QD 3S 3H',  against: 'KD JD QH AD 7H', to: :win
+      pit 'KH 7C 8C 9C 10C', against: '4H 5C 5S 6C 6H', to: :lose
+    end
+
+    context "two pair VS pair" do
+      pit 'QD 7D QH 8C 7H',   against: 'AD AH KD QC JS', to: :win
+      pit '7D 10D 10H 6S 5C', against: '3H 4H 5H 5S 4D', to: :lose
+    end
+
+    context "two pair VS two pair" do
+      pit 'QD QS 7H 5S 7S',   against: '10S KC 10S 7C 7D', to: :win
+      pit 'JS 8C JC 8H 3C',   against: 'AD JH JD 7S 7D',   to: :win
+      pit '2S 3S 2C 3H 4D',   against: '3D 3C 4H 2D 2H',   to: :tie
+      pit '9H 9D 4S 10C 10D', against: '10S 10H 9C 9S 5C', to: :lose
+    end
   end
 end
