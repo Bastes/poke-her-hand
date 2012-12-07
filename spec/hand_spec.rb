@@ -114,6 +114,34 @@ describe Poker::Hand do
       end
     end
 
+    context "straight VS" do
+      context "nothing" do
+        pit '2C 3D 4H 5S 6C', against: '7H 8H 9S JH QH',  to: :win
+        pit '7D 8D 9D QH JH', against: '8C 7C 9S JD 10H', to: :lose
+      end
+
+      context "pair" do
+        pit '10D 9H 7S 8D 6H',  against: 'KD KS QD JD AS', to: :win
+        pit 'JD 10H 9S 10S 8D', against: '3S 7H 4S 6D 5D', to: :lose
+      end
+
+      context "two pair" do
+        pit 'QH 10S JH KH AD', against: '10D QH QS AS AD', to: :win
+        pit 'KH 7S 4D 7D KD',  against: '9S 6D 7S 5D 8S',  to: :lose
+      end
+
+      context "three of a kind" do
+        pit '7D 8S 5D 6S 4H', against: 'QD 2H QS 3S QC',  to: :win
+        pit '8D 8H 5S 4C 8C', against: 'AS KS QD 10C JC', to: :lose
+      end
+
+      context "straight" do
+        pit '4H 5D 6H 7D 8S',  against: '3C 2H 4S 6S 5S',  to: :win
+        pit 'JS 10C 8S 9C 7C', against: '9S 7D 8H JC 10S', to: :tie
+        pit '9S 10S JC KC QD', against: 'AC JD KD QC 10C', to: :lose
+      end
+    end
+
     context "flush VS" do
       context "nothing" do
         pit '4C JC 10C 8C 3C', against: '4S JH 10S 8S 3S', to: :win
@@ -133,6 +161,11 @@ describe Poker::Hand do
       context "three of a kind" do
         pit '2S 4S 6S 8S 9S', against: '10H 10S AH 10C 9H', to: :win
         pit 'AS 5S 5H 5C 6S', against: 'JC 5C 6C KC 7C',    to: :lose
+      end
+
+      context "straight" do
+        pit 'AH KH 2H 4H 5H',  against: 'KD QS 9C 10D JS', to: :win
+        pit '10S 9S 8C 6S 7H', against: '10S 7S 4S KS QS', to: :lose
       end
 
       context "flush" do

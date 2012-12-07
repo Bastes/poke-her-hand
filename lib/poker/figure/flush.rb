@@ -7,7 +7,7 @@ module Poker::Figure
     end
 
     def nominal_value
-      4
+      5
     end
   end
 end

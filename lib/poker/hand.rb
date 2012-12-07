@@ -8,15 +8,21 @@ module Poker
       acceptable! cards
       cards = cards.split(/ /).map { |c| Card.new c }.sort!
       @figures = []
-      Figure::Flush.match(cards) do |flush, rest|
-        if flush
-          @figures << flush
+      Figure::Straight.match(cards) do |straight, rest|
+        if straight
+          @figures << straight
         else
-          Figure::ThreeOfAKind.match(cards) do |three, rest|
-            @figures << three if three
-            Figure::Pair.match(rest) do |pair, rest|
-              @figures << pair if pair
-              @figures << Figure::Nothing.new(rest)
+          Figure::Flush.match(cards) do |flush, rest|
+            if flush
+              @figures << flush
+            else
+              Figure::ThreeOfAKind.match(cards) do |three, rest|
+                @figures << three if three
+                Figure::Pair.match(rest) do |pair, rest|
+                  @figures << pair if pair
+                  @figures << Figure::Nothing.new(rest)
+                end
+              end
             end
           end
         end
