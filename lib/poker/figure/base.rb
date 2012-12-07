@@ -26,6 +26,6 @@ class Poker::Figure::Base
   protected
 
   def challenge cards
-    @cards.zip(cards).inject(0) { |r, (a, b)| (a.versus(b)).tap { |r| return r unless r== 0 } }
+    @cards.zip(cards).reverse.inject(0) { |r, (a, b)| (a.versus(b)).tap { |r| return r unless r== 0 } }
   end
 end
