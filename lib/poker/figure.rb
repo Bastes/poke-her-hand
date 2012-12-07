@@ -5,4 +5,5 @@ module Poker::Figure
   autoload :ThreeOfAKind, 'poker/figure/three_of_a_kind'
   autoload :Straight,     'poker/figure/straight'
   autoload :Flush,        'poker/figure/flush'
+  autoload :FullHouse,    'poker/figure/full_house'
 end
