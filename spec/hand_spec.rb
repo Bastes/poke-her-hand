@@ -134,6 +134,12 @@ describe Poker::Hand do
         pit '2S 4S 6S 8S 9S', against: '10H 10S AH 10C 9H', to: :win
         pit 'AS 5S 5H 5C 6S', against: 'JC 5C 6C KC 7C',    to: :lose
       end
+
+      context "flush" do
+        pit '4C JC 6C 8C 7C',   against: '10S 9S 6S 4S 7S', to: :win
+        pit '7D 8D 10D 9D 5D',  against: '5S 7S 8S 10S 9S', to: :tie
+        pit '3H 2H 10H 6H JH',  against: 'AC 2C 3C 5C 4C',  to: :lose
+      end
     end
   end
 end
