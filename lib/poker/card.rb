@@ -23,10 +23,18 @@ class Poker::Card
     -other.challenge(self.value)
   end
 
+  def same_color_as? other
+    other.has_color? @color
+  end
+
   protected
 
   def value
     VALUES[@value]
+  end
+
+  def has_color? color
+    @color == color
   end
 
   def compare value, color
