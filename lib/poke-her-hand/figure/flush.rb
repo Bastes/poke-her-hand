@@ -1,4 +1,4 @@
-module Poker::Figure
+module PokeHerHand::Figure
   class Flush < Base
     def self.match cards, &block
       card = cards.first

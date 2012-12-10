@@ -12,7 +12,7 @@ RSpec::Matchers.define :lose_against do |challenger|
   match { |hand| (hand <=> challenger) == -1 }
 end
 
-describe Poker::Hand do
+describe PokeHerHand::Hand do
   [
     'garbage',
     '2H 2D 2S 2C',
@@ -21,7 +21,7 @@ describe Poker::Hand do
     '8H 9G 3C 7D KH'
   ].each do |garbage|
     context "given #{garbage}" do
-      it { expect { Poker::Hand.new(garbage) }.to raise_error ArgumentError }
+      it { expect { PokeHerHand::Hand.new(garbage) }.to raise_error ArgumentError }
     end
   end
 
@@ -31,7 +31,7 @@ describe Poker::Hand do
     'AD QD AC QC JH'     => 'JH QC QD AC AD'
   }.each do |given, expected|
     context "given these cards: #{given}" do
-      subject { Poker::Hand.new(given) }
+      subject { PokeHerHand::Hand.new(given) }
 
       its(:to_s) { should == expected }
     end
@@ -42,8 +42,8 @@ describe Poker::Hand do
       challenger_hand = options[:against]
       expected = :"#{options[:to]}_against"
       context "#{hand}" do
-        let(:challenger) { Poker::Hand.new(challenger_hand) }
-        subject { Poker::Hand.new(hand) }
+        let(:challenger) { PokeHerHand::Hand.new(challenger_hand) }
+        subject { PokeHerHand::Hand.new(hand) }
 
         it { should send(expected, challenger) }
       end

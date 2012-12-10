@@ -1,4 +1,4 @@
-module Poker::Figure
+module PokeHerHand::Figure
   class StraightFlush < Base
     def self.match cards, &block
       straight_flush = cards[0,4].zip(cards[1,4]).all? do |(a,b)|

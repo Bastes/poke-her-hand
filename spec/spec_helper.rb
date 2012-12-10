@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'poker'
+require 'poke-her-hand'
 
 RSpec.configure do |config|
 end

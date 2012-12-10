@@ -1,4 +1,4 @@
-module Poker
+module PokeHerHand
   class Hand
     include Comparable
 

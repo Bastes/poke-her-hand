@@ -8,11 +8,11 @@ poker hands.
 
 Give it a poker hand like this :
 
-    first_hand = Hand.new('AS AC AH AD KS')
+    first_hand = PokeHerHand::Hand.new('AS AC AH AD KS')
 
 And compare it with another like this :
 
-    first_hand <=> Hand.new('9S 10S JS QS KS')
+    first_hand <=> PokeHerHand::Hand.new('9S 10S JS QS KS')
 
 It will return exactly what you expect (-1, because the latter hand wins in
 that case).

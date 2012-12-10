@@ -1,4 +1,4 @@
-class Poker::Card
+class PokeHerHand::Card
   include Comparable
 
   VALUE = /\A([2-9JQKA]|10)/

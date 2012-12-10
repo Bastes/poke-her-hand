@@ -1,4 +1,4 @@
-module Poker::Figure
+module PokeHerHand::Figure
   class Pair < Base
     def self.match cards, &block
       paired = (cards - [cards.last]).zip(cards - [cards.first]).

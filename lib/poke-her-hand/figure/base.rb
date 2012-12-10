@@ -1,4 +1,4 @@
-class Poker::Figure::Base
+class PokeHerHand::Figure::Base
   include Enumerable
   include Comparable
 

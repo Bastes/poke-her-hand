@@ -1,4 +1,4 @@
-module Poker::Figure
+module PokeHerHand::Figure
   class FourOfAKind < Base
     def self.match cards, &block
       four = [cards[0,4], cards[1,4]].
