@@ -6,6 +6,19 @@ Poker hand evaluator
 Written as an exercise in TDD, this gem is aimed at recognizing and comparing
 poker hands.
 
+Give it a poker hand like this :
+
+    first_hand = Hand.new('AS AC AH AD KS')
+
+And compare it with another like this :
+
+    first_hand <=> Hand.new('9S 10S JS QS KS')
+
+It will return exactly what you expect (-1, because the latter hand wins in
+that case).
+
+Easy isn't it ?
+
 Boring Licence Stuff
 --------------------
 
