@@ -2,8 +2,7 @@ module Poker::Figure
   class Flush < Base
     def self.match cards, &block
       card = cards.first
-      return yield nil, cards unless cards.all? { |c| c.same_color_as? card }
-      yield self.new(cards), []
+      yield self.new(cards) if (cards - [card]).all? { |c| c.same_color_as? card }
     end
 
     def nominal_value

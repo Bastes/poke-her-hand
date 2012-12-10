@@ -5,34 +5,7 @@ module Poker
     ACCEPTABLE = /\A(([2-9JQKA]|10)[CDHS])( ([2-9JQKA]|10)[CDHS]){4}\Z/
 
     def initialize(cards)
-      acceptable! cards
-      cards = cards.split(/ /).map { |c| Card.new c }.sort!
-      @figures = []
-      Figure::FullHouse.match(cards) do |full_house, rest|
-        if full_house
-          @figures << full_house
-        else
-          Figure::Straight.match(cards) do |straight, rest|
-            if straight
-              @figures << straight
-            else
-              Figure::Flush.match(cards) do |flush, rest|
-                if flush
-                  @figures << flush
-                else
-                  Figure::ThreeOfAKind.match(cards) do |three, rest|
-                    @figures << three if three
-                    Figure::Pair.match(rest) do |pair, rest|
-                      @figures << pair if pair
-                      @figures << Figure::Nothing.new(rest)
-                    end
-                  end
-                end
-              end
-            end
-          end
-        end
-      end
+      @figures = parse(cards)
     end
 
     def to_s
@@ -44,6 +17,19 @@ module Poker
     end
 
     protected
+
+    def parse cards
+      acceptable! cards
+      cards = cards.split(/ /).map { |c| Card.new c }.sort!
+      [
+        Figure::FullHouse,
+        Figure::Flush,
+        Figure::Straight,
+        Figure::ThreeOfAKind,
+        Figure::Pair,
+        Figure::Nothing
+      ].each { |figure| figure.match(cards) { |*parsed| return parsed } }
+    end
 
     def challenge figures
       @figures.zip(figures).inject(0) { |r, (a, b)| (a <=> b).tap { |r| return r unless r == 0 } }

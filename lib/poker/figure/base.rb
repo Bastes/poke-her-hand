@@ -2,6 +2,10 @@ class Poker::Figure::Base
   include Enumerable
   include Comparable
 
+  def self.match cards
+    yield self.new(cards)
+  end
+
   def initialize cards
     @cards = cards
   end

@@ -3,8 +3,7 @@ module Poker::Figure
     def self.match cards, &block
       three = cards[0,3].zip(cards[1,3], cards[2,3]).
         detect { |(a,b,c)| a.versus(b) == 0 && a.versus(c) == 0 }
-      return yield nil, cards unless three
-      yield self.new(three), cards - three
+      yield self.new(three), Nothing.new(cards - three) if three
     end
 
     def nominal_value
