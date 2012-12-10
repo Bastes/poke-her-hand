@@ -3,9 +3,19 @@ module Poker
     include Comparable
 
     ACCEPTABLE = /\A(([2-9JQKA]|10)[CDHS])( ([2-9JQKA]|10)[CDHS]){4}\Z/
+    FIGURES = [
+      Figure::StraightFlush,
+      Figure::FourOfAKind,
+      Figure::FullHouse,
+      Figure::Flush,
+      Figure::Straight,
+      Figure::ThreeOfAKind,
+      Figure::Pair,
+      Figure::Nothing
+    ]
 
     def initialize(cards)
-      @figures = parse(cards)
+      @figures = parse(acceptable!(cards))
     end
 
     def to_s
@@ -19,26 +29,20 @@ module Poker
     protected
 
     def parse cards
-      acceptable! cards
-      cards = cards.split(/ /).map { |c| Card.new c }.sort!
-      [
-        Figure::StraightFlush,
-        Figure::FourOfAKind,
-        Figure::FullHouse,
-        Figure::Flush,
-        Figure::Straight,
-        Figure::ThreeOfAKind,
-        Figure::Pair,
-        Figure::Nothing
-      ].each { |figure| figure.match(cards) { |*parsed| return parsed } }
+      FIGURES.each { |figure| figure.match(order(cards)) { |*r| return r } }
+    end
+
+    def order cards
+      cards.split(/ /).map { |c| Card.new c }.sort!
     end
 
     def challenge figures
-      @figures.zip(figures).inject(0) { |r, (a, b)| (a <=> b).tap { |r| return r unless r == 0 } }
+      @figures.zip(figures).
+        inject(0) { |r, (a, b)| (a <=> b).tap { |r| return r unless r == 0 } }
     end
 
     def acceptable! cards
-      return true if cards =~ ACCEPTABLE
+      return cards if cards =~ ACCEPTABLE
       raise ArgumentError.new("#{cards} is not a poker hand")
     end
   end
