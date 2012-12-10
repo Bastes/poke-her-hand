@@ -6,4 +6,5 @@ module Poker::Figure
   autoload :Straight,     'poker/figure/straight'
   autoload :Flush,        'poker/figure/flush'
   autoload :FullHouse,    'poker/figure/full_house'
+  autoload :FourOfAKind,  'poker/figure/four_of_a_kind'
 end

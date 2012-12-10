@@ -211,5 +211,47 @@ describe Poker::Hand do
         pit 'JD JC QD QH QC', against: '7S KC 7D KD KH', to: :lose
       end
     end
+
+    context "four of a kind VS" do
+      context "nothing" do
+        pit '10S 10H 4C 10D 10C', against: 'JS KS QC 9S AS', to: :win
+        pit '7S 8H 10C JD 2S',    against: '3H 3S 4S 3C 3D', to: :lose
+      end
+
+      context "pair" do
+        pit '7S 5H 5C 5D 5S',  against: '6S 8C 7D 8H JS', to: :win
+        pit 'KS 10C KH 9S 2C', against: 'JH QC QS QD QH', to: :lose
+      end
+
+      context "two pair" do
+        pit '6S 6C 6D 6H 8D',   against: '5C 5D 7H 9C 7D', to: :win
+        pit 'JH 10C 10S JS KD', against: '4C 4D 4H 7S 4S', to: :lose
+      end
+
+      context "three of a kind" do
+        pit '10C JC JH JS JD', against: 'KD KS 9C 10C KC', to: :win
+        pit '9C 8D 8C 8S 2C',  against: '6C 7S 6S 6H 6D',  to: :lose
+      end
+
+      context "straight" do
+        pit '10C 4C 4S 4D 4H', against: '9C 10S JD QH KS', to: :win
+        pit '6S 5C 7D 8S 9H',  against: '2C 2D 3S 2H 2S',  to: :lose
+      end
+
+      context "flush" do
+        pit '5C 5D 3S 5H 5S', against: '3C 9C 7C 8C KC', to: :win
+        pit '7D JD KD QD AD', against: 'KC KD KH 2S KS', to: :lose
+      end
+
+      context "full house" do
+        pit '3D 4S 4D 4C 4H', against: '7D 7C KH KS KD', to: :win
+        pit '3H 3C 7D 7S 3S', against: '2S 3D 2H 2D 2C', to: :lose
+      end
+
+      context "four of a kind" do
+        pit 'AS AD AH AC 2S', against: 'KD QS KC KH KS', to: :win
+        pit '2S 2C 2H 3S 2D', against: '4S 4D 4H 4C 2H', to: :lose
+      end
+    end
   end
 end

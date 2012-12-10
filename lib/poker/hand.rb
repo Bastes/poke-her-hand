@@ -22,6 +22,7 @@ module Poker
       acceptable! cards
       cards = cards.split(/ /).map { |c| Card.new c }.sort!
       [
+        Figure::FourOfAKind,
         Figure::FullHouse,
         Figure::Flush,
         Figure::Straight,
